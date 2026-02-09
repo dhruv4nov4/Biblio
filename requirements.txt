@@ -1,0 +1,24 @@
+# Core Framework
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+
+# LangChain & LangGraph
+langchain
+langchain-groq
+langgraph
+langchain-core
+
+# LLM Providers (ONLY GROQ)
+groq
+
+# Utilities
+python-dotenv
+python-multipart
+beautifulsoup4
+
+# Testing
+pytest
+pytest-asyncio
+httpx

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI App Builder | Architect Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="background-glow"></div>
+
+    <main class="container">
+        <header class="hero">
+            <div class="badge">HITL v2.0</div>
+            <h1>Build <span class="gradient-text">Anything</span> with Your Approval.</h1>
+            <p class="subtitle">Human-in-the-Loop AI Builder. Review and approve every step before code generation.</p>
+        </header>
+
+        <section id="input-section" class="glass-panel">
+            <div class="input-group">
+                <label for="user-prompt"><i class="fa-solid fa-wand-magic-sparkles"></i> Describe your app</label>
+                <textarea id="user-prompt"
+                    placeholder="e.g. A modern To-Do app with dark mode and local storage..."></textarea>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="ref-url"><i class="fa-solid fa-link"></i> Clone URL (Optional)</label>
+                    <input type="text" id="ref-url" placeholder="https://example.com">
+                </div>
+            </div>
+
+            <button id="generate-btn" class="primary-btn">
+                <span class="btn-text">Start Planning</span>
+                <span class="btn-icon"><i class="fa-solid fa-arrow-right"></i></span>
+            </button>
+        </section>
+
+        <section id="progress-section" class="hidden">
+            <div class="steps-container">
+                <div class="step active" data-step="gatekeeper">
+                    <div class="step-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <span>Analysis</span>
+                </div>
+                <div class="line"></div>
+                <div class="step" data-step="architect">
+                    <div class="step-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+                    <span>Blueprint</span>
+                </div>
+                <div class="line"></div>
+                <div class="step approval-step" data-step="feature_approval">
+                    <div class="step-icon"><i class="fa-solid fa-user-check"></i></div>
+                    <span>Your Approval</span>
+                </div>
+                <div class="line"></div>
+                <div class="step approval-step" data-step="techstack_approval">
+                    <div class="step-icon"><i class="fa-solid fa-sliders"></i></div>
+                    <span>Tech Review</span>
+                </div>
+                <div class="line"></div>
+                <div class="step" data-step="builder">
+                    <div class="step-icon"><i class="fa-solid fa-code"></i></div>
+                    <span>Coding</span>
+                </div>
+                <div class="line"></div>
+                <div class="step" data-step="packager">
+                    <div class="step-icon"><i class="fa-solid fa-box-archive"></i></div>
+                    <span>Package</span>
+                </div>
+            </div>
+
+            <!-- Tabbed Interface -->
+            <div class="tabs-container">
+                <button class="tab active" data-tab="planning">
+                    <i class="fa-solid fa-lightbulb"></i> Planning
+                </button>
+                <button class="tab" data-tab="technical">
+                    <i class="fa-solid fa-microchip"></i> Tech Stack
+                </button>
+                <button class="tab" data-tab="logs">
+                    <i class="fa-solid fa-terminal"></i> Build Logs
+                </button>
+                <button class="tab" data-tab="output" id="output-tab-btn">
+                    <i class="fa-solid fa-download"></i> Output
+                </button>
+            </div>
+
+            <!-- Planning Tab with Approval UI -->
+            <div class="tab-content glass-panel active" id="planning-tab">
+                <div class="tab-header">
+                    <i class="fa-solid fa-diagram-project"></i>
+                    <h3>Project Analysis</h3>
+                </div>
+
+                <!-- Approval Banner -->
+                <div class="approval-banner hidden" id="feature-approval-banner">
+                    <div class="approval-icon"><i class="fa-solid fa-hand"></i></div>
+                    <div class="approval-text">
+                        <strong>Your Input Required</strong>
+                        <p>Review the features and design specs below. Edit as needed, then approve to continue.</p>
+                    </div>
+                </div>
+
+                <div class="planning-content">
+                    <div class="info-card" id="classification-card">
+                        <span class="label">Classification</span>
+                        <span class="value" id="classification-value">Analyzing...</span>
+                    </div>
+
+                    <!-- Design Specifications Section -->
+                    <div class="design-specs-section" id="design-specs-section">
+                        <h4><i class="fa-solid fa-palette"></i> Design Specifications
+                            <span class="editable-badge hidden" id="design-editable-badge">Editable</span>
+                        </h4>
+                        <div class="design-specs-grid" id="design-specs-grid">
+                            <div class="design-spec-card" id="spec-color">
+                                <div class="spec-icon"><i class="fa-solid fa-droplet"></i></div>
+                                <div class="spec-content">
+                                    <span class="spec-label">Color Scheme</span>
+                                    <input type="text" class="spec-input hidden" id="spec-color-input"
+                                        placeholder="e.g., Dark theme with cyan accents">
+                                    <span class="spec-value" id="spec-color-value">Analyzing palette...</span>
+                                </div>
+                            </div>
+                            <div class="design-spec-card" id="spec-typography">
+                                <div class="spec-icon"><i class="fa-solid fa-font"></i></div>
+                                <div class="spec-content">
+                                    <span class="spec-label">Typography</span>
+                                    <input type="text" class="spec-input hidden" id="spec-typography-input"
+                                        placeholder="e.g., Inter for headings">
+                                    <span class="spec-value" id="spec-typography-value">Selecting fonts...</span>
+                                </div>
+                            </div>
+                            <div class="design-spec-card" id="spec-layout">
+                                <div class="spec-icon"><i class="fa-solid fa-table-cells-large"></i></div>
+                                <div class="spec-content">
+                                    <span class="spec-label">Layout</span>
+                                    <input type="text" class="spec-input hidden" id="spec-layout-input"
+                                        placeholder="e.g., Centered single-column">
+                                    <span class="spec-value" id="spec-layout-value">Planning structure...</span>
+                                </div>
+                            </div>
+                            <div class="design-spec-card" id="spec-animations">
+                                <div class="spec-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                                <div class="spec-content">
+                                    <span class="spec-label">Animations</span>
+                                    <input type="text" class="spec-input hidden" id="spec-animations-input"
+                                        placeholder="e.g., Smooth fade transitions">
+                                    <span class="spec-value" id="spec-animations-value">Designing interactions...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Features Section with Editable Cards -->
+                    <div class="features-section">
+                        <h4><i class="fa-solid fa-list-check"></i> Planned Features
+                            <span class="editable-badge hidden" id="features-editable-badge">Editable</span>
+                            <button class="add-feature-btn hidden" id="add-feature-btn">
+                                <i class="fa-solid fa-plus"></i> Add Feature
+                            </button>
+                        </h4>
+                        <div class="features-container" id="features-container">
+                            <div class="feature-placeholder">
+                                <i class="fa-solid fa-spinner fa-spin"></i>
+                                Features will appear after analysis...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Requirements Input -->
+                    <div class="user-requirements-section hidden" id="user-requirements-section">
+                        <h4><i class="fa-solid fa-comment-dots"></i> Additional Requirements (Optional)</h4>
+                        <textarea id="user-requirements-input"
+                            placeholder="Add any specific requirements or notes for the builder..."></textarea>
+                    </div>
+
+                    <!-- Architect's Reasoning -->
+                    <div class="reasoning-section">
+                        <h4><i class="fa-solid fa-brain"></i> Architect's Reasoning</h4>
+                        <p id="reasoning-value" class="reasoning-text">Waiting for blueprint...</p>
+                    </div>
+
+                    <!-- Feature Approval Button -->
+                    <div class="approval-actions hidden" id="feature-approval-actions">
+                        <button class="secondary-btn" id="edit-features-btn">
+                            <i class="fa-solid fa-pen"></i> Edit Features
+                        </button>
+                        <button class="primary-btn approve-btn" id="approve-features-btn">
+                            <i class="fa-solid fa-check"></i> Approve Features & Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Tab with Approval UI -->
+            <div class="tab-content glass-panel hidden" id="technical-tab">
+                <div class="tab-header">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <h3>Technical Overview</h3>
+                </div>
+
+                <!-- Tech Stack Approval Banner -->
+                <div class="approval-banner hidden" id="techstack-approval-banner">
+                    <div class="approval-icon"><i class="fa-solid fa-hand"></i></div>
+                    <div class="approval-text">
+                        <strong>Confirm Tech Stack</strong>
+                        <p>Review the technology choices below. Modify if needed, then approve to start building.</p>
+                    </div>
+                </div>
+
+                <div class="technical-content">
+                    <div class="tech-stack-section">
+                        <h4><i class="fa-solid fa-cubes"></i> Tech Stack
+                            <span class="editable-badge hidden" id="techstack-editable-badge">Editable</span>
+                        </h4>
+
+                        <!-- Editable Tech Stack (shown during approval) -->
+                        <div class="tech-stack-edit hidden" id="tech-stack-edit">
+                            <div class="tech-input-group">
+                                <label>Describe your preferred technology stack</label>
+                                <div class="input-with-btn">
+                                    <input type="text" id="tech-stack-input"
+                                        placeholder="e.g., HTML/CSS/JS frontend with Python Flask backend...">
+                                    <button id="generate-structure-btn" class="secondary-btn small-btn" type="button"
+                                        title="Auto-generate file structure based on this stack">
+                                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generator
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Read-only display (before approval stage) -->
+                        <div class="tech-badge" id="tech-stack-value">—</div>
+                    </div>
+
+                    <div class="files-section">
+                        <h4><i class="fa-solid fa-folder-tree"></i> File Structure
+                            <span class="editable-badge hidden" id="files-editable-badge">Editable</span>
+                            <button class="add-feature-btn hidden" id="add-file-btn">
+                                <i class="fa-solid fa-plus"></i> Add File
+                            </button>
+                        </h4>
+                        <ul class="file-tree" id="file-tree"></ul>
+                    </div>
+
+                    <div class="assets-section">
+                        <h4><i class="fa-solid fa-puzzle-piece"></i> Dependencies</h4>
+                        <div class="assets-list" id="assets-list">
+                            <span class="no-assets">No external dependencies</span>
+                        </div>
+                    </div>
+
+                    <!-- Tech Stack Approval Actions -->
+                    <div class="approval-actions hidden" id="techstack-approval-actions">
+                        <button class="primary-btn approve-btn" id="approve-techstack-btn">
+                            <i class="fa-solid fa-rocket"></i> Approve & Start Building
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Build Logs Tab -->
+            <div class="tab-content hidden" id="logs-tab">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <div class="terminal-title">builder_core.exe — HITL mode</div>
+                    </div>
+                    <div class="terminal-body" id="logs-container">
+                        <div class="log-entry system">> System initialized with HITL workflow...</div>
+                        <div class="log-entry system">> Waiting for your approvals at each stage...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Tab -->
+            <div class="tab-content glass-panel hidden" id="output-tab">
+                <div class="success-card">
+                    <div class="icon-circle pending" id="output-icon">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                    </div>
+                    <h2 id="output-title">Waiting for Approvals...</h2>
+                    <p id="output-message">Complete the approval steps to start code generation.</p>
+                    <div class="action-buttons hidden" id="download-section">
+                        <a id="download-btn" href="#" class="primary-btn download">
+                            <i class="fa-solid fa-download"></i> Download .ZIP
+                        </a>
+                        <button id="reset-btn" class="secondary-btn">Build Another</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
